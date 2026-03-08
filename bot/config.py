@@ -23,7 +23,7 @@ WITHDRAWAL_COOLDOWN = 48
 
 # IMPORTANT - YAHAN APNA TELEGRAM ID DALO!
 # @userinfobot se apna ID lo
-ADMIN_IDS = [123456789]  # Isko change karo apne ID se!
+ADMIN_IDS = [1011482865]  # Isko change karo apne ID se!
 
 # Bot Settings
 BOT_USERNAME = "SON_Mining_Bot"
