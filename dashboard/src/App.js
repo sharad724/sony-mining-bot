@@ -1,157 +1,221 @@
 import React, { useState, useEffect } from 'react';
+import './App.css';
 
 function App() {
-  const [userId, setUserId] = useState(null);
-  const [balance, setBalance] = useState(0);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [miningData, setMiningData] = useState({
+    balance: 1250.50,
+    mined: 3450.75,
+    rate: 0.5,
+    referrals: 12,
+    rank: 47
+  });
 
   useEffect(() => {
-    // URL se Telegram ID lo
     const params = new URLSearchParams(window.location.search);
-    const id = params.get('userId');
+    const userId = params.get('userId');
+    const username = params.get('username') || 'Crypto Miner';
     
-    if (id) {
-      setUserId(id);
-      localStorage.setItem('telegramId', id);
-      
-      // Demo balance (actual Firebase se ayega)
-      setTimeout(() => {
-        setBalance(1250.50);
-        setLoading(false);
-      }, 1000);
-    } else {
-      setLoading(false);
+    if (userId) {
+      setUser({ id: userId, username });
+      localStorage.setItem('telegramId', userId);
     }
+    
+    setTimeout(() => setLoading(false), 1500);
   }, []);
-
-  // Style objects
-  const styles = {
-    container: {
-      maxWidth: '800px',
-      margin: '0 auto',
-      padding: '20px',
-      fontFamily: '-apple-system, sans-serif'
-    },
-    header: {
-      textAlign: 'center',
-      padding: '20px',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      color: 'white',
-      borderRadius: '10px',
-      marginBottom: '20px'
-    },
-    card: {
-      background: 'white',
-      padding: '20px',
-      borderRadius: '10px',
-      boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-      marginBottom: '20px'
-    },
-    balance: {
-      fontSize: '36px',
-      fontWeight: 'bold',
-      margin: '10px 0'
-    },
-    grid: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: '10px'
-    },
-    statBox: {
-      background: '#f5f5f5',
-      padding: '15px',
-      borderRadius: '8px',
-      textAlign: 'center'
-    },
-    button: {
-      background: '#0088cc',
-      color: 'white',
-      border: 'none',
-      padding: '10px 20px',
-      borderRadius: '5px',
-      fontSize: '16px',
-      cursor: 'pointer',
-      textDecoration: 'none',
-      display: 'inline-block'
-    }
-  };
 
   if (loading) {
     return (
-      <div style={styles.container}>
-        <div style={styles.header}>
-          <h1>⛏️ Sony Mining</h1>
-          <p>Loading dashboard...</p>
-        </div>
+      <div className="loading-screen">
+        <div className="mining-icon">⛏️</div>
+        <div className="loader"></div>
+        <p>Initializing mining rig...</p>
       </div>
     );
   }
 
-  if (!userId) {
+  if (!user) {
     return (
-      <div style={styles.container}>
-        <div style={styles.header}>
-          <h1>⛏️ Sony Mining</h1>
-          <p>Please login with Telegram</p>
-        </div>
-        <div style={{...styles.card, textAlign: 'center'}}>
-          <p>Bot se dashboard button click karo</p>
-          <a 
-            href="https://t.me/SON_Mining_Bot" 
-            style={styles.button}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open @SON_Mining_Bot
-          </a>
+      <div className="login-container">
+        <div className="login-card">
+          <div className="logo-section">
+            <h1>⛏️ Sony Mining</h1>
+            <p className="subtitle">SON Token Mining Platform</p>
+          </div>
+          <div className="telegram-login">
+            <img src="https://telegram.org/img/telegram_logo.svg" alt="Telegram" />
+            <p>Connect with Telegram to start mining</p>
+            <a 
+              href="https://t.me/Son_Mining123bot" 
+              className="telegram-button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              🔓 Login with Telegram
+            </a>
+          </div>
+          <div className="features">
+            <div className="feature-item">
+              <span>⚡</span>
+              <div>
+                <h4>Cloud Mining</h4>
+                <p>Mine SON tokens 24/7</p>
+              </div>
+            </div>
+            <div className="feature-item">
+              <span>💎</span>
+              <div>
+                <h4>Instant Payouts</h4>
+                <p>Withdraw anytime</p>
+              </div>
+            </div>
+            <div className="feature-item">
+              <span>👥</span>
+              <div>
+                <h4>Referral Bonus</h4>
+                <p>Earn 10% from referrals</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={styles.container}>
-      {/* Header */}
-      <div style={styles.header}>
-        <h1>⛏️ Sony Mining</h1>
-        <p>ID: {userId.substring(0, 8)}...</p>
-      </div>
-
-      {/* Balance Card */}
-      <div style={styles.card}>
-        <h2>Your Balance</h2>
-        <div style={styles.balance}>{balance} SON</div>
-        <p>Mining Rate: 0.5 SON/hour</p>
-      </div>
-
-      {/* Stats Grid */}
-      <div style={styles.grid}>
-        <div style={styles.statBox}>
-          <h3>Total Mined</h3>
-          <p style={{fontSize: '20px', fontWeight: 'bold'}}>1,250 SON</p>
+    <div className="dashboard">
+      <nav className="top-nav">
+        <div className="nav-brand">
+          <span className="brand-icon">⛏️</span>
+          <span className="brand-name">Sony Mining</span>
         </div>
-        <div style={styles.statBox}>
-          <h3>Referrals</h3>
-          <p style={{fontSize: '20px', fontWeight: 'bold'}}>5</p>
+        <div className="nav-user">
+          <span className="user-balance">{miningData.balance} SON</span>
+          <div className="user-avatar">
+            {user.username.charAt(0).toUpperCase()}
+          </div>
         </div>
-      </div>
+      </nav>
 
-      {/* Action Buttons */}
-      <div style={{...styles.grid, marginTop: '20px'}}>
-        <a 
-          href={`https://t.me/SON_Mining_Bot`}
-          style={{...styles.button, textAlign: 'center'}}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Open Bot
-        </a>
-        <button 
-          style={{...styles.button, background: '#764ba2'}}
-          onClick={() => window.location.reload()}
-        >
-          Refresh
-        </button>
+      <div className="dashboard-main">
+        <div className="welcome-banner">
+          <div className="banner-content">
+            <h2>Welcome back, {user.username}! 👋</h2>
+            <p>Your mining rig is active and earning SON tokens</p>
+          </div>
+        </div>
+
+        <div className="stats-grid">
+          <div className="stat-card">
+            <div className="stat-icon">💰</div>
+            <div className="stat-content">
+              <h3>SON Balance</h3>
+              <p className="stat-value">{miningData.balance.toFixed(2)} SON</p>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">⛏️</div>
+            <div className="stat-content">
+              <h3>Total Mined</h3>
+              <p className="stat-value">{miningData.mined.toFixed(2)} SON</p>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">⚡</div>
+            <div className="stat-content">
+              <h3>Mining Speed</h3>
+              <p className="stat-value">{miningData.rate} SON/h</p>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">👥</div>
+            <div className="stat-content">
+              <h3>Referrals</h3>
+              <p className="stat-value">{miningData.referrals}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mining-section">
+          <div className="mining-header">
+            <h3>Mining Console</h3>
+            <span className="status-badge active">● Live</span>
+          </div>
+          <div className="mining-controls">
+            <div className="mining-progress">
+              <div className="progress-label">
+                <span>Current Session</span>
+                <span>2h 15m remaining</span>
+              </div>
+              <div className="progress-bar">
+                <div className="progress-fill" style={{width: '65%'}}></div>
+              </div>
+            </div>
+            <div className="mining-actions">
+              <button className="mine-button primary">⛏️ Start Mining</button>
+              <button className="mine-button secondary">⚡ Boost +50%</button>
+              <button className="mine-button outline">💰 Claim</button>
+            </div>
+          </div>
+        </div>
+
+        <div className="dashboard-grid">
+          <div className="history-section">
+            <h3>Mining History</h3>
+            <div className="history-list">
+              {[1,2,3,4,5].map(i => (
+                <div key={i} className="history-item">
+                  <div className="history-icon">⛏️</div>
+                  <div className="history-details">
+                    <span className="history-title">Mining Reward</span>
+                    <span className="history-time">{i}h ago</span>
+                  </div>
+                  <span className="history-amount">+0.5 SON</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="referral-section">
+            <h3>Referral Program</h3>
+            <div className="referral-card">
+              <p>Earn 10% from your referrals' mining</p>
+              <div className="referral-link">
+                <input 
+                  type="text" 
+                  value={`https://t.me/Son_Mining123bot?start=${user.id}`}
+                  readOnly
+                />
+                <button className="copy-btn">📋</button>
+              </div>
+              <div className="referral-stats">
+                <div><span>Referrals</span><strong>{miningData.referrals}</strong></div>
+                <div><span>Earnings</span><strong>25.50 SON</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="leaderboard-section">
+          <h3>🏆 Top Miners</h3>
+          <table className="leaderboard-table">
+            <thead>
+              <tr><th>Rank</th><th>Miner</th><th>Mined</th><th>Ref</th></tr>
+            </thead>
+            <tbody>
+              {[
+                {rank:1,name:'CryptoKing',mined:15420,ref:45},
+                {rank:6,name:user.username,mined:miningData.mined,ref:miningData.referrals,isUser:true}
+              ].map(m => (
+                <tr key={m.rank} className={m.isUser?'current-user':''}>
+                  <td>#{m.rank}</td><td>{m.name}</td>
+                  <td>{m.mined.toFixed(0)}</td><td>{m.ref}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
