@@ -1,403 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-
-function App() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [miningData, setMiningData] = useState({
-    balance: 1250.50,
-    mined: 3450.75,
-    rate: 0.5,
-    referrals: 12,
-    rank: 47
-  });
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const userId = params.get('userId');
-    const username = params.get('username') || 'Crypto Miner';
-    
-    if (userId) {
-      setUser({ id: userId, username });
-      localStorage.setItem('telegramId', userId);
-    }
-    
-    setTimeout(() => setLoading(false), 1500);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <div className="mining-icon">⛏️</div>
-        <div className="loader"></div>
-        <p>Initializing mining rig...</p>
-      </div>
-    );
+{
+  "name": "sony-mining-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sony Mining Dashboard - SON Token Mining Platform",
+  "homepage": "https://sony-mining.netlify.app",
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.19",
+    "@mui/material": "^5.14.18",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.6.2",
+    "chart.js": "^4.4.1",
+    "firebase": "^10.7.1",
+    "framer-motion": "^10.16.16",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-countup": "^6.5.0",
+    "react-dom": "^18.2.0",
+    "react-helmet-async": "^2.0.4",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.12.0",
+    "react-router-dom": "^6.20.1",
+    "react-scripts": "5.0.1",
+    "recharts": "^2.10.3",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "gh-pages": "^6.1.1",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6"
+  },
+  "keywords": [
+    "mining",
+    "cryptocurrency",
+    "telegram-bot",
+    "son-token",
+    "dashboard"
+  ],
+  "author": "Sony Mining Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sharad724/sony-mining-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sharad724/sony-mining-bot/issues"
   }
-
-  if (!user) {
-    return (
-      <div className="login-container">
-        <div className="login-card">
-          <div className="logo-section">
-            <h1>⛏️ Sony Mining</h1>
-            <p className="subtitle">SON Token Mining Platform</p>
-          </div>
-          <div className="telegram-login">
-            <img src="https://telegram.org/img/telegram_logo.svg" alt="Telegram" />
-            <p>Connect with Telegram to start mining</p>
-            <a 
-              href="https://t.me/Son_Mining123bot" 
-              className="telegram-button"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              🔓 Login with Telegram
-            </a>
-          </div>
-          <div className="features">
-            <div className="feature-item">
-              <span>⚡</span>
-              <div>
-                <h4>Cloud Mining</h4>
-                <p>Mine SON tokens 24/7</p>
-              </div>
-            </div>
-            <div className="feature-item">
-              <span>💎</span>
-              <div>
-                <h4>Instant Payouts</h4>
-                <p>Withdraw anytime</p>
-              </div>
-            </div>
-            <div className="feature-item">
-              <span>👥</span>
-              <div>
-                <h4>Referral Bonus</h4>
-                <p>Earn 10% from referrals</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="dashboard">
-      <nav className="top-nav">
-        <div className="nav-brand">
-          <span className="brand-icon">⛏️</span>
-          <span className="brand-name">Sony Mining</span>
-        </div>
-        <div className="nav-user">
-          <span className="user-balance">{miningData.balance} SON</span>
-          <div className="user-avatar">
-            {user.username.charAt(0).toUpperCase()}
-          </div>
-        </div>
-      </nav>
-
-      <div className="dashboard-main">
-        <div className="welcome-banner">
-          <div className="banner-content">
-            <h2>Welcome back, {user.username}! 👋</h2>
-            <p>Your mining rig is active and earning SON tokens</p>
-          </div>
-        </div>
-
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon">💰</div>
-            <div className="stat-content">
-              <h3>SON Balance</h3>
-              <p className="stat-value">{miningData.balance.toFixed(2)} SON</p>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">⛏️</div>
-            <div className="stat-content">
-              <h3>Total Mined</h3>
-              <p className="stat-value">{miningData.mined.toFixed(2)} SON</p>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">⚡</div>
-            <div className="stat-content">
-              <h3>Mining Speed</h3>
-              <p className="stat-value">{miningData.rate} SON/h</p>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">👥</div>
-            <div className="stat-content">
-              <h3>Referrals</h3>
-              <p className="stat-value">{miningData.referrals}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="mining-section">
-          <div className="mining-header">
-            <h3>Mining Console</h3>
-            <span className="status-badge active">● Live</span>
-          </div>
-          <div className="mining-controls">
-            <div className="mining-progress">
-              <div className="progress-label">
-                <span>Current Session</span>
-                <span>2h 15m remaining</span>
-              </div>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{width: '65%'}}></div>
-              </div>
-            </div>
-            <div className="mining-actions">
-              <button className="mine-button primary">⛏️ Start Mining</button>
-              <button className="mine-button secondary">⚡ Boost +50%</button>
-              <button className="mine-button outline">💰 Claim</button>
-            </div>
-          </div>
-        </div>
-
-        <div className="dashboard-grid">
-          <div className="history-section">
-            <h3>Mining History</h3>
-            <div className="history-list">
-              {[1,2,3,4,5].map(i => (
-                <div key={i} className="history-item">
-                  <div className="history-icon">⛏️</div>
-                  <div className="history-details">
-                    <span className="history-title">Mining Reward</span>
-                    <span className="history-time">{i}h ago</span>
-                  </div>
-                  <span className="history-amount">+0.5 SON</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="referral-section">
-            <h3>Referral Program</h3>
-            <div className="referral-card">
-              <p>Earn 10% from your referrals' mining</p>
-              <div className="referral-link">
-                <input 
-                  type="text" 
-                  value={`https://t.me/Son_Mining123bot?start=${user.id}`}
-                  readOnly
-                />
-                <button className="copy-btn">📋</button>
-              </div>
-              <div className="referral-stats">
-                <div><span>Referrals</span><strong>{miningData.referrals}</strong></div>
-                <div><span>Earnings</span><strong>25.50 SON</strong></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="leaderboard-section">
-          <h3>🏆 Top Miners</h3>
-          <table className="leaderboard-table">
-            <thead>
-              <tr><th>Rank</th><th>Miner</th><th>Mined</th><th>Ref</th></tr>
-            </thead>
-            <tbody>
-              {[
-                {rank:1,name:'CryptoKing',mined:15420,ref:45},
-                {rank:6,name:user.username,mined:miningData.mined,ref:miningData.referrals,isUser:true}
-              ].map(m => (
-                <tr key={m.rank} className={m.isUser?'current-user':''}>
-                  <td>#{m.rank}</td><td>{m.name}</td>
-                  <td>{m.mined.toFixed(0)}</td><td>{m.ref}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
 }
-
-export default App;        </div>
-        <div className="nav-user">
-          <span className="user-balance">{miningData.balance} SON</span>
-          <div className="user-avatar">
-            {user.username.charAt(0).toUpperCase()}
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Dashboard */}
-      <div className="dashboard-main">
-        {/* Welcome Banner */}
-        <div className="welcome-banner">
-          <div className="banner-content">
-            <h2>Welcome back, {user.username}! 👋</h2>
-            <p>Your mining rig is active and earning SON tokens</p>
-          </div>
-          <div className="banner-stats">
-            <div className="stat">
-              <span className="stat-label">Hash Rate</span>
-              <span className="stat-value">15.2 MH/s</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Grid */}
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon">💰</div>
-            <div className="stat-content">
-              <h3>SON Balance</h3>
-              <p className="stat-value">{miningData.balance.toFixed(2)} SON</p>
-              <p className="stat-change">≈ $12.50 USD</p>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon">⛏️</div>
-            <div className="stat-content">
-              <h3>Total Mined</h3>
-              <p className="stat-value">{miningData.mined.toFixed(2)} SON</p>
-              <p className="stat-change">+0.5 SON/hour</p>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon">⚡</div>
-            <div className="stat-content">
-              <h3>Mining Speed</h3>
-              <p className="stat-value">{miningData.rate} SON/h</p>
-              <p className="stat-change">Boost available</p>
-            </div>
-          </div>
-
-          <div className="stat-card">
-            <div className="stat-icon">👥</div>
-            <div className="stat-content">
-              <h3>Referrals</h3>
-              <p className="stat-value">{miningData.referrals}</p>
-              <p className="stat-change">+25.50 SON earned</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Mining Controls */}
-        <div className="mining-section">
-          <div className="mining-header">
-            <h3>Mining Console</h3>
-            <span className="status-badge active">● Live</span>
-          </div>
-          
-          <div className="mining-controls">
-            <div className="mining-progress">
-              <div className="progress-label">
-                <span>Current Session</span>
-                <span>2h 15m remaining</span>
-              </div>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{width: '65%'}}></div>
-              </div>
-            </div>
-
-            <div className="mining-actions">
-              <button className="mine-button primary">
-                <span>⛏️</span>
-                Start Mining
-              </button>
-              <button className="mine-button secondary">
-                <span>⚡</span>
-                Boost +50%
-              </button>
-              <button className="mine-button outline">
-                <span>💰</span>
-                Claim
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mining History & Referrals */}
-        <div className="dashboard-grid">
-          <div className="history-section">
-            <h3>Mining History</h3>
-            <div className="history-list">
-              {[1,2,3,4,5].map(i => (
-                <div key={i} className="history-item">
-                  <div className="history-icon">⛏️</div>
-                  <div className="history-details">
-                    <span className="history-title">Mining Reward</span>
-                    <span className="history-time">{i}h ago</span>
-                  </div>
-                  <span className="history-amount">+0.5 SON</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="referral-section">
-            <h3>Referral Program</h3>
-            <div className="referral-card">
-              <p>Earn 10% from your referrals' mining</p>
-              <div className="referral-link">
-                <input 
-                  type="text" 
-                  value={`https://t.me/Son_Mining123bot?start=${user.id}`}
-                  readOnly
-                />
-                <button className="copy-btn">📋</button>
-              </div>
-              <div className="referral-stats">
-                <div>
-                  <span>Total Referrals</span>
-                  <strong>{miningData.referrals}</strong>
-                </div>
-                <div>
-                  <span>Earnings</span>
-                  <strong>25.50 SON</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Leaderboard */}
-        <div className="leaderboard-section">
-          <h3>🏆 Top Miners</h3>
-          <table className="leaderboard-table">
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Miner</th>
-                <th>Mined (SON)</th>
-                <th>Referrals</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                { rank: 1, name: 'CryptoKing', mined: 15420, ref: 45 },
-                { rank: 2, name: 'MiningPro', mined: 12350, ref: 38 },
-                { rank: 3, name: 'TokenHunter', mined: 9870, ref: 31 },
-                { rank: 4, name: 'SONWhale', mined: 7650, ref: 24 },
-                { rank: 5, name: 'CryptoMiner', mined: 6540, ref: 19 },
-                { rank: 6, name: user.username, mined: miningData.mined, ref: miningData.referrals, isUser: true }
-              ].map(m => (
-                <tr key={m.rank} className={m.isUser ? 'current-user' : ''}>
-                  <td>#{m.rank}</td>
-                  <td>{m.name}</td>
-                  <td>{m.mined.toFixed(0)}</td>
-                  <td>{m.ref}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default App;
